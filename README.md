@@ -1,8 +1,8 @@
 # A Quiet Almanac
 
 A square-foot garden planner you use by scrubbing through the year. Built for
-[Canton, Ohio](https://en.wikipedia.org/wiki/Food_Not_Bombs), Ohio — USDA Zone 6a,
-last frost April 18, first frost October 28, 193 days in between.
+Canton, Ohio — USDA Zone 6a, last frost April 18, first frost October 28,
+193 days in between.
 
 **Live: <https://gardensync-almanac.pages.dev/>**
 
