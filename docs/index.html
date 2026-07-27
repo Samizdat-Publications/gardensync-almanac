@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Quiet Almanac — GardenSync for Food Not Bombs Canton</title>
+<meta name="description" content="A calm garden bed planner for Food Not Bombs Canton, Ohio. Lay out beds and containers square by square, then drag the season ribbon to any day of the year and watch the garden redraw itself. 77 plants, Zone 6a.">
+<meta name="theme-color" content="#F5EFDF">
+<link rel="canonical" href="https://samizdat-publications.github.io/gardensync-almanac/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GardenSync — A Quiet Almanac">
+<meta property="og:title" content="A Quiet Almanac — a garden you plan by scrubbing through the year">
+<meta property="og:description" content="Lay out a community garden square by square, then drag the season ribbon to any date and every bed redraws itself: dashed plans, sprouts, full plants, gold harvest rings, sepia for what is spent. Built for Food Not Bombs Canton, Zone 6a.">
+<meta property="og:url" content="https://samizdat-publications.github.io/gardensync-almanac/">
+<meta property="og:image" content="https://samizdat-publications.github.io/gardensync-almanac/screenshots/almanac-hero.png">
+<meta property="og:image:alt" content="The almanac's garden beds on warm cream paper, with a season ribbon running across the top of the page.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Quiet Almanac — a garden you plan by scrubbing through the year">
+<meta name="twitter:description" content="A calm garden bed planner for Food Not Bombs Canton, Ohio. Drag the season ribbon and the whole garden redraws itself at that date.">
+<meta name="twitter:image" content="https://samizdat-publications.github.io/gardensync-almanac/screenshots/almanac-hero.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Karla:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🌱</text></svg>">
+
+<style>
+/* ============================================================
+   A Quiet Almanac — the sheet that describes the almanac.
+   Same paper, same ink, same two typefaces as the app itself.
+   ============================================================ */
+
+:root {
+  --paper:       #F5EFDF;
+  --paper-deep:  #EDE4CD;
+  --paper-edge:  #E3D7BA;
+  --card:        #FBF6E8;
+  /* Ink is warm and quiet, but it still has to be read on paper this pale.
+     Every tone that carries words clears 4.5:1 against the cream. The bright
+     gold and the pale tints keep their old values — they draw rules, borders
+     and fills, and never set type. */
+  --ink:         #2C3527;
+  --ink-soft:    #5C6553;   /* body                          5.4:1 */
+  --ink-faint:   #63685A;   /* labels, captions, the asides  5.0:1 */
+  --moss:        #5E7350;
+  --moss-deep:   #3D5135;
+  --moss-pale:   #DCE5CB;
+  --clay:        #9B5334;   /* links                         5.0:1 */
+  --clay-pale:   #F0DCCF;
+  --gold:        #C09A2C;   /* rules and borders only — too bright for type */
+  --gold-ink:    #7B621C;   /* the same gold, steeped darker 5.1:1 */
+  --gold-pale:   #F2E7C4;
+
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'Karla', 'Segoe UI', sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(44,53,39,.06), 0 6px 18px rgba(44,53,39,.08);
+  --shadow-lift: 0 2px 4px rgba(44,53,39,.08), 0 14px 30px rgba(44,53,39,.14);
+  --ease-calm: cubic-bezier(.33,.8,.3,1);
+
+  --measure: 36rem;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 70% -10%, #FAF6EA 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 100%, #EFE6CF 0%, transparent 55%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--moss-pale); }
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--clay); text-decoration: underline; text-decoration-style: dotted;
+    text-underline-offset: 3px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+a:hover { color: var(--moss-deep); }
+
+/* paper grain over everything, very quiet — lifted from the app */
+.grain {
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  opacity: .35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.sheet {
+  width: min(62rem, 100%);
+  margin-inline: auto;
+  padding-inline: clamp(1.15rem, 4.5vw, 3.5rem);
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  border-bottom: 1px solid var(--paper-edge);
+  padding: clamp(1.6rem, 4vw, 2.8rem) 0 1.1rem;
+}
+.wordmark { display: flex; align-items: center; gap: .8rem; }
+.wordmark .sprig { width: 40px; height: 40px; color: var(--moss-deep); flex: none; }
+.wordmark h1 {
+  font-family: var(--serif); font-weight: 550;
+  font-size: clamp(1.9rem, 6vw, 2.5rem); line-height: 1;
+  margin: 0; letter-spacing: -.015em;
+  font-variation-settings: 'opsz' 110;
+}
+.tagline {
+  margin: .45rem 0 0;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.tagline .sep { color: var(--paper-edge); margin: 0 .3em; }
+
+/* ---------- opening ---------- */
+
+.opening { padding: clamp(2.2rem, 6vw, 3.6rem) 0 0; }
+.dateline {
+  font-family: var(--serif); font-style: italic;
+  font-size: .95rem; color: var(--ink-faint);
+  margin: 0 0 1.1rem;
+}
+h2.display {
+  font-family: var(--serif); font-weight: 500;
+  font-variation-settings: 'opsz' 144;
+  font-size: clamp(2.1rem, 6.6vw, 3.6rem);
+  line-height: 1.06; letter-spacing: -.02em;
+  margin: 0 0 1.4rem; max-width: 20ch;
+}
+h2.display em { font-style: italic; color: var(--moss-deep); }
+.lede {
+  max-width: var(--measure);
+  font-size: 1.12rem; color: var(--ink-soft); line-height: 1.6;
+  margin: 0 0 1.1rem;
+}
+.lede strong { color: var(--ink); font-weight: 700; }
+
+.entry {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.2rem;
+  margin: 2rem 0 .4rem;
+}
+.open-link {
+  font-family: var(--sans); font-size: .95rem; font-weight: 700;
+  letter-spacing: .01em; text-decoration: none;
+  background: var(--moss-deep); color: var(--paper);
+  border: 1px solid var(--moss-deep); border-radius: 12px;
+  padding: .72rem 1.35rem;
+  box-shadow: var(--shadow-soft);
+  transition: background .25s var(--ease-calm), transform .25s var(--ease-calm);
+}
+.open-link:hover { background: var(--moss); color: #fff; transform: translateY(-1px); }
+.entry .aside {
+  font-family: var(--serif); font-style: italic; font-size: .98rem; color: var(--ink-soft);
+  min-width: 0; overflow-wrap: anywhere;
+}
+
+/* ---------- contents ---------- */
+
+.contents {
+  margin: 2.6rem 0 0; padding: 1.2rem 0 0;
+  border-top: 1px solid var(--paper-edge);
+  max-width: 40rem;
+}
+.contents h3 {
+  font-family: var(--sans);
+  font-size: .66rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 .5rem;
+}
+.contents ol { list-style: none; margin: 0; padding: 0; }
+.contents li { display: flex; align-items: baseline; gap: .55rem; padding: .18rem 0; }
+.contents .num {
+  flex: none; width: 2.4em;
+  font-family: var(--serif); font-style: italic; font-size: .9rem; color: var(--gold-ink);
+}
+.contents .leader { flex: 1; border-bottom: 1px dotted var(--paper-edge); transform: translateY(-.28em); }
+.contents a { text-decoration: none; color: var(--ink-soft); font-size: .95rem; }
+.contents a:hover { color: var(--moss-deep); text-decoration: underline; text-decoration-style: dotted; }
+
+/* ---------- sections ---------- */
+
+section.chapter { padding: clamp(2.6rem, 7vw, 4.2rem) 0 0; }
+
+.chapter-head { margin: 0 0 1.3rem; }
+.chapter-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: .95rem; color: var(--gold-ink);
+  display: flex; align-items: center; gap: .7rem;
+  margin: 0 0 .5rem;
+}
+.chapter-num::after { content: ''; flex: 1; height: 1px; background: var(--paper-edge); }
+.chapter h3 {
+  font-family: var(--serif); font-weight: 550;
+  font-variation-settings: 'opsz' 100;
+  font-size: clamp(1.5rem, 3.6vw, 2rem); line-height: 1.15;
+  letter-spacing: -.012em; margin: 0;
+}
+.chapter h3 .quiet { color: var(--ink-faint); font-style: italic; font-weight: 400; }
+
+.chapter p { max-width: var(--measure); margin: 0 0 1rem; color: var(--ink-soft); }
+.chapter p strong { color: var(--ink); font-weight: 700; }
+.chapter p.wide { max-width: 46rem; }
+
+/* a small hand-written aside, tilted like the app's field notes */
+.note {
+  max-width: 30rem;
+  margin: 1.6rem 0;
+  background: #FCF6E3; border: 1px solid var(--gold); border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  padding: .85rem 1.1rem;
+  transform: rotate(-.35deg);
+  font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--ink);
+  line-height: 1.5;
+}
+
+/* the seven kinds of ground, and other quiet lists */
+.ground-list {
+  list-style: none; margin: 1.2rem 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: .45rem;
+  max-width: 46rem;
+}
+.ground-list li {
+  font-size: .84rem; font-weight: 700; color: var(--ink-soft);
+  background: #FFFFFF8C; border: 1px solid var(--paper-edge); border-radius: 999px;
+  padding: .28rem .8rem;
+}
+.ground-list li .n { color: var(--ink-faint); font-weight: 400; font-family: var(--serif); font-style: italic; }
+
+/* ---------- figures ---------- */
+
+figure {
+  margin: 1.7rem 0 0;
+  max-width: 100%;
+}
+figure .frame {
+  background: var(--card);
+  border: 1px solid var(--paper-edge);
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+  padding: .5rem;
+  overflow: hidden;
+}
+figure img { border-radius: 9px; width: 100%; }
+figcaption {
+  font-family: var(--serif); font-style: italic;
+  font-size: .93rem; color: var(--ink-soft);
+  margin: .6rem .2rem 0; line-height: 1.5;
+}
+figcaption .plate {
+  font-family: var(--sans); font-style: normal;
+  font-size: .6rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-faint); margin-right: .55rem;
+  white-space: nowrap;
+}
+figure.narrow { max-width: 24rem; }
+figure.midway { max-width: 34rem; }
+figure.strip .frame { padding: .35rem; }
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1.4rem;
+  margin-top: 1.7rem;
+}
+.pair figure { margin: 0; }
+
+/* ---------- sprig divider ---------- */
+
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: clamp(2.6rem, 7vw, 4rem) 0 0;
+  color: var(--ink-faint);
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--paper-edge); }
+.divider svg { width: 20px; height: 20px; color: var(--moss); opacity: .7; flex: none; }
+
+/* ---------- the sibling note ---------- */
+
+.siblings {
+  margin: clamp(2.6rem, 7vw, 4rem) 0 0;
+  background: #FBF6E8;
+  border: 1px solid var(--paper-edge);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1.3rem, 4vw, 2rem);
+}
+.siblings h3 {
+  font-family: var(--serif); font-weight: 550; font-variation-settings: 'opsz' 100;
+  font-size: 1.35rem; margin: 0 0 .7rem;
+}
+.siblings p { max-width: 42rem; color: var(--ink-soft); margin: 0 0 .9rem; }
+.siblings p:last-child { margin-bottom: 0; }
+
+/* ---------- run it yourself ---------- */
+
+pre {
+  margin: 1.2rem 0 0;
+  background: #FCF8EC;
+  border: 1px solid var(--paper-edge);
+  border-left: 3px solid var(--moss);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: .86rem; line-height: 1.75;
+  color: var(--ink);
+}
+code { font-family: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Menlo, monospace; }
+pre .c { color: var(--ink-faint); font-style: italic; }
+p code {
+  font-size: .86em; background: #FFFFFF8C;
+  border: 1px solid var(--paper-edge); border-radius: 5px; padding: .05em .35em;
+}
+
+/* ---------- colophon table ---------- */
+
+.colophon { margin: 1.4rem 0 0; max-width: 34rem; }
+.colophon dl { margin: 0; }
+.colophon .row {
+  display: flex; align-items: baseline; gap: .55rem;
+  padding: .34rem 0; border-bottom: 1px dotted var(--paper-edge);
+}
+.colophon .row:last-child { border-bottom: none; }
+.colophon dt {
+  font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink-faint); flex: none;
+}
+.colophon .leader { flex: 1; }
+.colophon dd {
+  margin: 0; text-align: right;
+  font-family: var(--serif); font-size: 1rem; color: var(--ink);
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  margin-top: clamp(3rem, 8vw, 5rem);
+  border-top: 1px solid var(--paper-edge);
+  padding: 1.6rem 0 clamp(2.5rem, 7vw, 4rem);
+}
+footer p {
+  font-family: var(--serif); font-style: italic;
+  color: var(--ink-faint); font-size: .95rem;
+  max-width: 40rem; margin: 0 0 .6rem;
+}
+footer .links {
+  font-family: var(--sans); font-style: normal;
+  font-size: .82rem; color: var(--ink-faint);
+  display: flex; flex-wrap: wrap; gap: .4rem .9rem;
+}
+footer .links a { color: var(--ink-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .open-link { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="sheet">
+    <div class="wordmark">
+      <svg class="sprig" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 28 C16 20 16 14 16 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M16 14 C12 12 9 12 6 13 C8 8 12 7 16 9 Z" fill="currentColor" opacity=".85"/>
+        <path d="M16 11 C20 9 23 9 26 10 C24 5 20 4 16 6 Z" fill="currentColor" opacity=".6"/>
+      </svg>
+      <div>
+        <h1>A Quiet Almanac</h1>
+        <p class="tagline">GardenSync<span class="sep">·</span>Food Not Bombs<span class="sep">·</span>Canton, Ohio<span class="sep">·</span>Zone 6a</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="sheet">
+
+  <section class="opening">
+    <p class="dateline">Last frost, April 18. First frost, October 28. One hundred and ninety-three days in between.</p>
+
+    <h2 class="display">A garden you plan by <em>scrubbing through the year</em>.</h2>
+
+    <p class="lede">
+      A Quiet Almanac is a bed planner for the Food Not Bombs garden in Canton, Ohio — the beds whose
+      harvest goes to neighbours. You lay out plots square by square from a library of
+      <strong>77 plants</strong>, and the whole year sits at the top of the page as a ribbon.
+      Drag the pin to any date and every bed redraws itself as it will look then.
+    </p>
+    <p class="lede">
+      It runs in a browser with no account, no build step and no server. Four files.
+    </p>
+
+    <p class="entry">
+      <a class="open-link" href="https://gardensync-almanac.pages.dev/">Open the almanac</a>
+      <span class="aside">— it opens on a planted garden; nothing to set up.</span>
+    </p>
+
+    <figure>
+      <div class="frame">
+        <img src="screenshots/almanac-hero.png" width="1440" height="900"
+             alt="The almanac on warm cream paper: a season ribbon across the top, a seed drawer at left, seven garden plots drawn as beds and containers, and an almanac column at right.">
+      </div>
+      <figcaption><span class="plate">Plate I</span>The whole sheet on July 26 — ribbon, seed drawer, seven plots, and the almanac column keeping count.</figcaption>
+    </figure>
+
+    <nav class="contents" aria-label="Contents">
+      <h3>Contents</h3>
+      <ol>
+        <li><span class="num">I.</span><a href="#ribbon">The season ribbon</a><span class="leader"></span></li>
+        <li><span class="num">II.</span><a href="#halos">Companion halos</a><span class="leader"></span></li>
+        <li><span class="num">III.</span><a href="#shed">The potting shed</a><span class="leader"></span></li>
+        <li><span class="num">IV.</span><a href="#plant">The plant page</a><span class="leader"></span></li>
+        <li><span class="num">V.</span><a href="#harvest">Harvest outlook, and what was actually picked</a><span class="leader"></span></li>
+        <li><span class="num">VI.</span><a href="#calendar">The printable year</a><span class="leader"></span></li>
+        <li><span class="num">VII.</span><a href="#ask">Ask the almanac</a><span class="leader"></span></li>
+        <li><span class="num">VIII.</span><a href="#manual">The manual</a><span class="leader"></span></li>
+      </ol>
+    </nav>
+  </section>
+
+  <!-- I ------------------------------------------------------------------ -->
+  <section class="chapter" id="ribbon">
+    <div class="chapter-head">
+      <p class="chapter-num">I.</p>
+      <h3>The season ribbon <span class="quiet">— the year is the control</span></h3>
+    </div>
+
+    <p>
+      A plan for a garden is really a plan for a year, so the year is what you hold. The ribbon runs
+      January to December with the Canton frost dates marked and today pinned in clay red. Drag the pin
+      and every plot re-renders at that date: a <strong>dashed ghost</strong> for what has not been sown yet,
+      a small sprout for what is just up, the full plant in its season, a <strong>gold ring</strong> on anything
+      ready to pick, and sepia on what is spent.
+    </p>
+    <p>
+      Below is the same garden twice — the same plan, six months apart, with nothing edited in between.
+    </p>
+
+    <div class="pair">
+      <figure>
+        <div class="frame">
+          <img src="screenshots/almanac-scrub.png" width="1600" height="1000" loading="lazy"
+               alt="The garden viewed on April 16: several beds still drawn as dashed outlines, a few early sowings showing small sprouts.">
+        </div>
+        <figcaption><span class="plate">Plate II</span>April 16 — sprouts, a good deal still dashed plan, and the almanac open on Kale.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame">
+          <img src="screenshots/almanac-october.png" width="1600" height="1000" loading="lazy"
+               alt="The same garden viewed on October 16: most plants drawn in sepia as spent, a few late crops still standing.">
+        </div>
+        <figcaption><span class="plate">Plate III</span>October 16 — the same beds at the other end, mostly spent.</figcaption>
+      </figure>
+    </div>
+
+    <div class="note">
+      Crops sown in autumn wrap the year properly. Garlic goes in around October 10, sleeps under straw,
+      and comes out the following July 12 — one planting that crosses the January line.
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 32 32">
+      <path d="M16 28 C16 20 16 14 16 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M16 14 C12 12 9 12 6 13 C8 8 12 7 16 9 Z" fill="currentColor" opacity=".85"/>
+      <path d="M16 11 C20 9 23 9 26 10 C24 5 20 4 16 6 Z" fill="currentColor" opacity=".6"/>
+    </svg>
+  </div>
+
+  <!-- II ----------------------------------------------------------------- -->
+  <section class="chapter" id="halos">
+    <div class="chapter-head">
+      <p class="chapter-num">II.</p>
+      <h3>Companion halos <span class="quiet">— guidance before you commit</span></h3>
+    </div>
+
+    <p>
+      Pick up a seed packet and the garden answers before anything is planted: every friend already in
+      the ground glows moss green, every foe blushes terracotta. Nothing is forbidden — the almanac shows
+      what it knows and lets you plant anyway.
+    </p>
+    <p>
+      Each plot also keeps a one-line mood under its name, so a bed can tell you it is
+      <em>thriving — friends all around</em>, <em>content — good company</em>, or
+      <em>uneasy — 2 quarrels</em>, without a single red error.
+    </p>
+
+    <figure>
+      <div class="frame">
+        <img src="screenshots/almanac-halos.png" width="1600" height="1000" loading="lazy"
+             alt="A tomato seed packet is held; companions already planted in the beds are haloed in green while a few plants blush terracotta.">
+      </div>
+      <figcaption><span class="plate">Plate IV</span>Holding a tomato packet — friends already in the garden ticked in green, quarrels ticked in terracotta.</figcaption>
+    </figure>
+  </section>
+
+  <!-- III ---------------------------------------------------------------- -->
+  <section class="chapter" id="shed">
+    <div class="chapter-head">
+      <p class="chapter-num">III.</p>
+      <h3>The potting shed <span class="quiet">— seven kinds of ground</span></h3>
+    </div>
+
+    <p>
+      Not every plot is a raised bed, and a planner that assumes otherwise is no use to a garden built
+      out of what people donated. The shed offers the raised bed in three sizes and six containers, each
+      drawn with its own proportions and rim.
+    </p>
+
+    <ul class="ground-list">
+      <li>raised bed <span class="n">8&prime;×4&prime;, 10&prime;×5&prime;, 4&prime;×4&prime;</span></li>
+      <li>terracotta pot</li>
+      <li>tree pot <span class="n">blueberries approve</span></li>
+      <li>half barrel</li>
+      <li>grow bag <span class="n">good for potatoes</span></li>
+      <li>window box</li>
+      <li>steel trough</li>
+    </ul>
+
+    <figure class="strip">
+      <div class="frame">
+        <img src="screenshots/almanac-shed.png" width="780" height="120" loading="lazy"
+             alt="The potting shed row: three raised bed sizes, then six container types listed as dashed buttons.">
+      </div>
+      <figcaption><span class="plate">Plate V</span>The potting shed, sitting quietly below the garden.</figcaption>
+    </figure>
+  </section>
+
+  <!-- IV ----------------------------------------------------------------- -->
+  <section class="chapter" id="plant">
+    <div class="chapter-head">
+      <p class="chapter-num">IV.</p>
+      <h3>The plant page <span class="quiet">— and its neighbours</span></h3>
+    </div>
+
+    <p>
+      Click any plant and the almanac column becomes its page: spacing, days to harvest, sun and water,
+      a year-strip showing when it goes in and when it comes out, how to start it from seed, and — the
+      part that matters when you are standing over a bed — which of its companions and foes are
+      <em>actually</em> in your garden right now.
+    </p>
+    <p>
+      The library is <strong>77 plants</strong>: 45 vegetables, 14 herbs, 15 flowers and 3 fruit. Every one
+      carries spacing in inches, days to harvest, sun and water needs, companions, enemies, seed-starting
+      instructions, care notes, and sow and transplant timing measured against the frost dates.
+    </p>
+
+    <figure>
+      <div class="frame">
+        <img src="screenshots/almanac-plant.png" width="1600" height="1000" loading="lazy"
+             alt="The almanac column showing the page for Kale: facts, a year-strip timeline, and the companions present in the garden.">
+      </div>
+      <figcaption><span class="plate">Plate VI</span>Kale, and everything standing near it.</figcaption>
+    </figure>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 32 32">
+      <path d="M16 28 C16 20 16 14 16 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M16 14 C12 12 9 12 6 13 C8 8 12 7 16 9 Z" fill="currentColor" opacity=".85"/>
+      <path d="M16 11 C20 9 23 9 26 10 C24 5 20 4 16 6 Z" fill="currentColor" opacity=".6"/>
+    </svg>
+  </div>
+
+  <!-- V ------------------------------------------------------------------ -->
+  <section class="chapter" id="harvest">
+    <div class="chapter-head">
+      <p class="chapter-num">V.</p>
+      <h3>Harvest outlook <span class="quiet">— and what was actually picked</span></h3>
+    </div>
+
+    <p>
+      A community garden is judged in pounds, so the almanac keeps a running estimate: projected weight
+      for the season, a bar against the <strong>500 lb goal</strong>, a month-by-month chart of when that
+      weight lands, and a ready-to-pick line for whatever date you are viewing.
+    </p>
+    <p>
+      Then you log what you really carried out. Picks are recorded per plant, and the goal bar splits
+      into picked and projected — so by August the estimate stops being a promise and starts being a
+      tally.
+    </p>
+
+    <figure>
+      <div class="frame">
+        <img src="screenshots/almanac-garden.png" width="1600" height="1000" loading="lazy"
+             alt="The garden with the almanac column at right showing plot counts, a ready-to-pick list, projected pounds, a goal bar and a monthly harvest chart.">
+      </div>
+      <figcaption><span class="plate">Plate VII</span>The column on July 26: seven plots, 155 plantings, 16 varieties, about 251 lbs in sight — half the goal.</figcaption>
+    </figure>
+  </section>
+
+  <!-- VI ----------------------------------------------------------------- -->
+  <section class="chapter" id="calendar">
+    <div class="chapter-head">
+      <p class="chapter-num">VI.</p>
+      <h3>The printable year <span class="quiet">— for people who are not at a screen</span></h3>
+    </div>
+
+    <p>
+      Most of the crew works the beds, not the browser. The calendar lays the whole year out month by
+      month — every sowing, transplant, succession round and first harvest — sized for paper and printed
+      from the same page. Pin it up in the shed.
+    </p>
+
+    <figure>
+      <div class="frame">
+        <img src="screenshots/almanac-calendar.png" width="1600" height="1000" loading="lazy"
+             alt="A printable calendar overlay: twelve months, each listing the sowings, transplants and first harvests for the planned garden.">
+      </div>
+      <figcaption><span class="plate">Plate VIII</span>The year in the garden, laid out for printing.</figcaption>
+    </figure>
+  </section>
+
+  <!-- VII ---------------------------------------------------------------- -->
+  <section class="chapter" id="ask">
+    <div class="chapter-head">
+      <p class="chapter-num">VII.</p>
+      <h3>Ask the almanac <span class="quiet">— answering with no key at all</span></h3>
+    </div>
+
+    <p>
+      The published build has no API key behind it, so the question box answers offline — from the plant
+      library and from your actual beds. Ask when to plant garlic and it says the crop goes in the wrong
+      way round: cloves around Oct 10, mulched under straw to sleep through the winter, up in spring and
+      out near Jul 12 — and, because it can see the beds, that you have sixteen in the ground already.
+      Then the care notes it holds for garlic: scapes off in June for bigger bulbs, harvest when the
+      lower third of the leaves has browned, cure two weeks. It is not a model improvising about
+      gardening; it is the same data the rest of the page draws from, read back in sentences. This is
+      the answer every visitor gets, and it is the one the almanac was written to give.
+    </p>
+    <p>
+      To send the question to Claude instead, run the almanac locally and set
+      <code>localStorage['almanac-claude-key']</code> to a key of your own. The browser sends that key
+      with the question; <code>proxy.py</code> only forwards it, and holds no key itself. Your garden and
+      the date you are viewing ride along in the prompt. If Anthropic does not answer, the offline
+      almanac picks the question back up.
+    </p>
+
+    <figure class="narrow">
+      <div class="frame">
+        <img src="screenshots/almanac-ask.png" width="330" height="415" loading="lazy"
+             alt="The Ask the almanac panel: the typed question &quot;when should I plant garlic?&quot; and beneath it a long answer giving Oct 10 for planting the cloves under straw, Jul 12 for lifting them, and noting sixteen already in the ground. An empty &quot;ask quietly&quot; field and a green send button sit at the foot of the panel.">
+      </div>
+      <figcaption><span class="plate">Plate IX</span>Answered offline, from the plant library and the garden in front of it.</figcaption>
+    </figure>
+  </section>
+
+  <!-- VIII --------------------------------------------------------------- -->
+  <section class="chapter" id="manual">
+    <div class="chapter-head">
+      <p class="chapter-num">VIII.</p>
+      <h3>The manual <span class="quiet">— short, and all of it</span></h3>
+    </div>
+
+    <p>
+      No tour, no tooltips waiting to interrupt you. There is one help panel, it fits on a screen, and it
+      is the whole of the documentation the app needs. Every plot is a single tab stop, the arrow keys
+      walk its plants, Delete removes one, and undo goes back as far as you like.
+    </p>
+
+    <figure class="midway">
+      <div class="frame">
+        <img src="screenshots/almanac-help.png" width="585" height="497" loading="lazy"
+             alt="The help panel: a few short paragraphs explaining planting, the ribbon, companions and saving.">
+      </div>
+      <figcaption><span class="plate">Plate X</span>The entire manual.</figcaption>
+    </figure>
+  </section>
+
+  <!-- siblings ------------------------------------------------------------ -->
+  <section class="siblings" id="editions">
+    <h3>A rebuild, not a fork</h3>
+    <p>
+      This is the second edition of GardenSync. The first — <strong>the planner</strong> — is still
+      running and still maintained: emerald on black, beds you fill by clicking, companion threads strung
+      between the plants, six workspaces, harvest and volunteer tracking, and Garden Buddy, an assistant
+      that will place plants for you. The almanac
+      shares its <strong>77-plant dataset and its Zone 6a agronomy</strong>, and none of its code. The
+      design is new; the research is not.
+    </p>
+    <p>
+      They are siblings, kept in separate repositories, and each links across to the other. Pick whichever
+      one you would rather stand in.
+    </p>
+    <p class="links">
+      The planner: <a href="https://gardensync-e4e.pages.dev/">gardensync-e4e.pages.dev</a>
+      <span class="aside">·</span>
+      <a href="https://github.com/Samizdat-Publications/gardensync">github.com/Samizdat-Publications/gardensync</a>
+    </p>
+  </section>
+
+  <!-- run it yourself ----------------------------------------------------- -->
+  <section class="chapter" id="run">
+    <div class="chapter-head">
+      <p class="chapter-num">Colophon</p>
+      <h3>Run it yourself</h3>
+    </div>
+
+    <p>
+      No bundler, no dependencies, no install step. Any static server will serve it; <code>proxy.py</code>
+      is only needed if you want the question box to reach Claude with a key of your own.
+    </p>
+
+<pre><code>git clone https://github.com/Samizdat-Publications/gardensync-almanac
+cd gardensync-almanac
+python proxy.py          <span class="c"># then open http://localhost:8080</span></code></pre>
+
+    <div class="colophon">
+      <dl>
+        <div class="row"><dt>Files</dt><span class="leader"></span><dd>4 — index.html, style.css, app.js, plants.js</dd></div>
+        <div class="row"><dt>Plants</dt><span class="leader"></span><dd>77 — 45 veg, 14 herbs, 15 flowers, 3 fruit</dd></div>
+        <div class="row"><dt>Plot kinds</dt><span class="leader"></span><dd>7</dd></div>
+        <div class="row"><dt>Zone</dt><span class="leader"></span><dd>6a — Canton, Ohio</dd></div>
+        <div class="row"><dt>Season</dt><span class="leader"></span><dd>193 days, Apr 18 – Oct 28</dd></div>
+        <div class="row"><dt>Type</dt><span class="leader"></span><dd>Fraunces &amp; Karla</dd></div>
+      </dl>
+    </div>
+
+    <p class="entry" style="margin-top:2rem">
+      <a class="open-link" href="https://gardensync-almanac.pages.dev/">Open the almanac</a>
+      <span class="aside">or read
+        <a href="https://github.com/Samizdat-Publications/gardensync-almanac">the source on GitHub</a>.</span>
+    </p>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="sheet">
+    <p>
+      Built for Food Not Bombs Canton, Ohio. The beds are real, the harvest goes to neighbours, and the
+      software is only useful to the extent it helps that happen.
+    </p>
+    <p class="links">
+      <a href="https://gardensync-almanac.pages.dev/">Live</a>
+      <a href="https://github.com/Samizdat-Publications/gardensync-almanac">Source</a>
+      <a href="https://gardensync-e4e.pages.dev/">The planner</a>
+      <a href="https://github.com/Samizdat-Publications/gardensync">Planner source</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

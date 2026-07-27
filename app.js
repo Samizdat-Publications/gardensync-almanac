@@ -1524,9 +1524,23 @@ ${gardenSummary() || '(no beds yet)'}
 
 Answer briefly and warmly, like a wise neighbor over the fence — practical advice, no lists unless asked, no exclamation marks. The harvest feeds neighbors in need; honor that quietly.`;
 
+    /* proxy.py forwards whatever x-api-key the browser sends — it holds no key
+       of its own and never reads .env. Without a key Anthropic returns an error,
+       apiAlive goes false, and the offline almanac answers instead. That is the
+       path nearly everyone takes, and it is a feature rather than a failure. To
+       wake the fuller model, run the app locally and set
+       localStorage['almanac-claude-key'] to your own key. */
+    const key = (() => {
+      try { return localStorage.getItem('almanac-claude-key') || ''; }
+      catch (e) { return ''; }
+    })();
+
     fetch('/api/claude/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01' },
+      headers: Object.assign(
+        { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01' },
+        key ? { 'x-api-key': key } : {}
+      ),
       body: JSON.stringify({
         model: 'claude-sonnet-5',
         max_tokens: 800,
