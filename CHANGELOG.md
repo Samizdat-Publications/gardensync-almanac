@@ -129,7 +129,7 @@ and a first-visit hint on the ribbon pin.
   rules apply: everything fits one square, and sprawlers are warned they will
   sulk.
 - **Harvest outlook.** Projected pounds, a progress bar against the 500 lb
-  Food Not Bombs season goal, and a month-by-month chart.
+  season goal, and a month-by-month chart.
 - **A printable year.** Every sowing, transplant, succession round and first
   harvest, laid out month by month for the volunteer crew.
 - **Field notes and caretakers** per plot.

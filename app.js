@@ -150,7 +150,7 @@ function yieldOf(p) {
   if (p.type === 'flower') return 0;
   return 1.5;
 }
-const HARVEST_GOAL = 500;   // lbs — the FNB season goal
+const HARVEST_GOAL = 500;   // lbs — the season goal
 
 function harvestOutlook() {
   let total = 0;
@@ -301,7 +301,7 @@ function fillBed(bed, recipe) {
 
 const TEMPLATES = {
   'blank': () => [makeBed('North bed', 8, 4), makeBed('Middle bed', 8, 4), makeBed('South bed', 8, 4)],
-  'fnb-easy': () => [
+  'easy-start': () => [
     fillBed(makeBed('The Greens Bed', 8, 4), [['kale',3],['swiss-chard',12],['lettuce',2],['parsley',4]]),
     fillBed(makeBed('Root Cellar', 8, 4),    [['onion',12],['carrot',10],['beet',8],['chive',2]]),
     fillBed(makeBed('Potato Patch', 8, 4),   [['potato',32]]),
@@ -1121,7 +1121,7 @@ function savePoster() {
   ctx.fillText('GardenSync', PADX, 52);
   ctx.font = 'italic 14px Fraunces, Georgia, serif';
   ctx.fillStyle = '#5C6553';
-  ctx.fillText(`Food Not Bombs · Canton, Ohio · Zone 6a · pressed ${fmtDoy(todayDoy())}`, PADX, 76);
+  ctx.fillText(`Canton, Ohio · Zone 6a · pressed ${fmtDoy(todayDoy())}`, PADX, 76);
   ctx.fillText(`${state.beds.length} plots · ≈${Math.round(total)} lbs for neighbors this season`, PADX, 96);
 
   const imgs = items.map(i => new Promise(res => {
@@ -1166,7 +1166,7 @@ function openCalendar() {
   const events = gardenEvents();
   const { total } = harvestOutlook();
   document.getElementById('calendar-sub').textContent =
-    `Food Not Bombs · Canton, Ohio · Zone 6a · ${state.beds.length} plots · ≈${Math.round(total)} lbs projected`;
+    `Canton, Ohio · Zone 6a · ${state.beds.length} plots · ≈${Math.round(total)} lbs projected`;
 
   let html = '';
   for (let m = 0; m < 12; m++) {
@@ -1205,8 +1205,8 @@ function setupTools() {
     state.beds = TEMPLATES[b.dataset.plan]();
     state.sel = null; state.armed = null;
     renderDrawer(); renderBeds(); renderAlmanac(); renderPlantingNote(); save();
-    whisper(b.dataset.plan === 'fnb-easy'
-      ? 'The FNB Easy Start plan is laid out — five beds, a spud sack, and a blueberry pot.'
+    whisper(b.dataset.plan === 'easy-start'
+      ? 'The Easy Start plan is laid out — five beds, a spud sack, and a blueberry pot.'
       : 'Three blank beds, raked smooth.');
   }));
 
@@ -1478,7 +1478,7 @@ function localAnswer(qRaw) {
   if (has('what do i have', 'in my garden', 'what is planted', "what's planted", 'my beds', 'my plots'))
     return state.beds.length
       ? `You are tending ${state.beds.length} plots:\n${gardenSummary()}`
-      : `Nothing yet — the ground is bare. Open Plans for the FNB Easy Start layout, or add a bed beneath the garden.`;
+      : `Nothing yet — the ground is bare. Open Plans for the Easy Start layout, or add a bed beneath the garden.`;
 
   return ALMANAC_CAN;
 }
@@ -1517,7 +1517,7 @@ function setupAsk() {
 
     const thinking = addMsg('bot thinking', 'leafing through the almanac…');
 
-    const system = `You are the Almanac: a calm, knowledgeable companion inside GardenSync, a community garden planner for Food Not Bombs in Canton, Ohio (USDA Zone 6a; last frost Apr 18, first frost Oct 28). Today is ${fmtDoy(todayDoy())}; the user is viewing ${fmtDoy(state.viewDoy)}.
+    const system = `You are the Almanac: a calm, knowledgeable companion inside GardenSync, a community garden planner for Canton, Ohio (USDA Zone 6a; last frost Apr 18, first frost Oct 28). Today is ${fmtDoy(todayDoy())}; the user is viewing ${fmtDoy(state.viewDoy)}.
 
 The garden right now:
 ${gardenSummary() || '(no beds yet)'}
@@ -1614,7 +1614,7 @@ function boot() {
   }
 
   if (!state.beds.length) {
-    state.beds = TEMPLATES['fnb-easy']();
+    state.beds = TEMPLATES['easy-start']();
     fresh = true;
   }
   state.pinHint = fresh || shared;
@@ -1624,7 +1624,7 @@ function boot() {
   setupTools(); setupAsk(); loadWeather();
 
   if (shared) whisper('A shared garden, unfolded and laid out. Your old one is a Ctrl+Z away.', 5200);
-  else if (fresh) whisper('Welcome. The FNB Easy Start plan is laid out — drag the year above to watch it grow.', 5200);
+  else if (fresh) whisper('Welcome. The Easy Start plan is laid out — drag the year above to watch it grow.', 5200);
 }
 
 boot();

@@ -1,7 +1,7 @@
 # A Quiet Almanac
 
 A square-foot garden planner you use by scrubbing through the year. Built for
-[Food Not Bombs Canton](https://en.wikipedia.org/wiki/Food_Not_Bombs), Ohio — USDA Zone 6a,
+[Canton, Ohio](https://en.wikipedia.org/wiki/Food_Not_Bombs), Ohio — USDA Zone 6a,
 last frost April 18, first frost October 28, 193 days in between.
 
 **Live: <https://gardensync-almanac.pages.dev/>**
@@ -164,7 +164,7 @@ The calendar overlay lays the whole plan out month by month — every sowing, ev
 every succession round, every first harvest. It is designed to print on paper and go on a shed
 wall, because that is where volunteer crews actually read things.
 
-![The calendar overlay, headed "The year in the garden" and subtitled "Food Not Bombs · Canton, Ohio
+![The calendar overlay, headed "The year in the garden" and subtitled "Canton, Ohio
 · Zone 6a · 7 plots · ≈251 lbs projected", with Print and Close buttons in the corner. Twelve month
 blocks run three to a row on cream paper, each a dated list — "Feb 7 · Start Onion seeds indoors",
 "Apr 18 · Direct sow Chives", "May 15 · First Kale harvest" — and the quiet months simply read
@@ -288,5 +288,5 @@ Two temperaments on the same research. Pick whichever one you will actually open
 
 ## Credit
 
-Built for Food Not Bombs Canton, Ohio. The harvest feeds neighbours; the software should get out
+Built for Canton, Ohio. The harvest feeds neighbours; the software should get out
 of the way of that.

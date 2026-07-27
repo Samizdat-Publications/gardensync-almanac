@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**GardenSync — A Quiet Almanac** is a square-foot garden planner for Food Not Bombs Canton, Ohio
+**GardenSync — A Quiet Almanac** is a square-foot garden planner for Canton, Ohio
 (USDA Zone 6a). You lay out beds and containers, plant them from a drawer of 77 seed packets, then
 drag a pin along a season ribbon to watch the whole year play out: dashed plans before sowing,
 sprouts, full plants, gold rings when a crop is ready, sepia when it is spent. The harvest feeds
@@ -139,7 +139,7 @@ warning, not a block.
   `output_config: {effort:'low'}` — the answers are three warm sentences and there are no tools, so
   extended thinking would only add latency and cost.
 - **Yield estimates** live in `yieldOf()` (a regex table of rough field estimates, lbs per
-  planting) and `HARVEST_GOAL = 500` lbs is the FNB season goal the progress bar measures against.
+  planting) and `HARVEST_GOAL = 500` lbs is the season goal the progress bar measures against.
   These are honest approximations; if you refine them, refine them from a source.
 
 ## Conventions
@@ -157,7 +157,7 @@ warning, not a block.
   Google Fonts. Set them via `--serif` / `--sans`.
 - **Voice.** The interface speaks quietly and in full sentences: "empty, full of possibility",
   "lifted gently and set aside". Transient messages go through `whisper()`. No exclamation marks,
-  no emoji stuffing beyond the plant glyphs, no shouting. The Food Not Bombs mission is real and
+  no emoji stuffing beyond the plant glyphs, no shouting. The community-garden mission is real and
   is never used as decoration.
 - **Accessibility is load-bearing:** each plot is one tab stop with arrow-key walking, overlays are
   `role="dialog" aria-modal="true"` and close on Escape, and animation respects
