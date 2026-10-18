@@ -1,5 +1,7 @@
 # A Quiet Almanac
 
+![Status: v1.0](https://img.shields.io/badge/status-v1.0-2ea043)
+
 A square-foot garden planner you use by scrubbing through the year. Built for
 Canton, Ohio — USDA Zone 6a, last frost April 18, first frost October 28,
 193 days in between.
@@ -290,3 +292,7 @@ Two temperaments on the same research. Pick whichever one you will actually open
 
 Built for Canton, Ohio. The harvest feeds neighbours; the software should get out
 of the way of that.
+
+## Licence
+
+Code is MIT (see [LICENSE](LICENSE)). Third-party assets listed above (the Fraunces and Karla typefaces, SIL OFL 1.1) keep their own licences.

@@ -1,0 +1,25 @@
+{
+  "name": "A Quiet Almanac",
+  "repo": "gardensync-almanac",
+  "pitch": "A square-foot garden planner you scrub through the year: drag the season ribbon and every bed regrows as it would that day.",
+  "status": "v1",
+  "version": "1.0.0",
+  "kind": "tool",
+  "started": "2026-06-10",
+  "updated": "2026-07-26",
+  "tech": ["JavaScript", "SVG", "Claude API", "Cloudflare Pages"],
+  "links": {
+    "landing": "https://gardensync-almanac.pages.dev",
+    "play": "",
+    "devlog": ""
+  },
+  "hero": {
+    "gif": "",
+    "poster": "docs/screenshots/almanac-hero.png",
+    "clip": ""
+  },
+  "credits": [
+    { "what": "Plant library, frost windows and companion data", "who": "Shared with the GardenSync planner, Zone 6a research", "licence": "MIT" },
+    { "what": "Fraunces and Karla typefaces", "who": "Google Fonts", "licence": "SIL OFL 1.1" }
+  ]
+}
